@@ -121,7 +121,7 @@ function TestStepIn() {
 
             // Home作成
             //var homeRow = "<a href='LNAS0000VW' title='ホーム'><i class='fa fa-lg fa-fw fa-home'></i>";
-            var para = '"PXAS/PXAS0000/PXAS0000VW", "0",  "home", 0';
+            var para = '"PXAS/PXAS0010/PXAS0010VW", "0",  "home", 0';
             var homeRow = "<a href='#' id='home' title='ホーム' onclick='MenuLink(" + para + ")'><i class='fa fa-lg fa-fw fa-home'></i>";
             homeRow += "<span class='menu-item-parent'>ホーム</span></a>";
             var newLi = $('<li>').append(homeRow);
@@ -346,12 +346,10 @@ function CreateMenu() {
         if (data != "") {
             $('#listMenu').empty();
             $('#mainMenu').empty();
-            var newDivDataLeft = "";
-            var newDivDataRight = "";
 
             // Home作成
             //var homeRow = "<a href='LNAS0000VW' title='ホーム'><i class='fa fa-lg fa-fw fa-home'></i>";
-            var para = '"PXAS/PXAS0000/PXAS0000VW", "0",  "home", 0';
+            var para = '"PXAS/PXAS0010/_PXAS0010VW", "0",  "home", 0';
             var homeRow = "<a href='#' id='home' title='ホーム' onclick='MenuLink(" + para + ")'><i class='fa fa-lg fa-fw fa-home'></i>";
             homeRow += "<span class='menu-item-parent'>ホーム</span></a>";
             var newLi = $('<li>').append(homeRow);
@@ -370,17 +368,7 @@ function CreateMenu() {
                 if (rowData.ParentClass != "") {
                     parentClass = rowData.ParentClass;
                 }
-
-                // 中央一覧メニュー部分
-                var childDivData = "";
-                var newDivData = "    <div class='jarviswidget jarviswidget-color-blueLight' id='' data-widget-editbutton='false'";
-                newDivData += " data-widget-colorbutton='false' data-widget-deletebutton='false' data-widget-fullscreenbutton='false'>" + "\r\n";
-                newDivData += "        <header>" + "\r\n";
-                newDivData += "            " + rowData.ChildRowMain + "\r\n";
-                newDivData += "        </header>" + "\r\n";
-                newDivData += "        <div>" + "\r\n";
-                newDivData += "            <div class='widget-body flex'>" + "\r\n";
-
+                
                 for (var j = 0; j < rowData.ChildData.length; j++) {
                     var childData = rowData.ChildData[j];
                     // 子要素の中身[<a>タグ等]
@@ -390,11 +378,7 @@ function CreateMenu() {
                         childLi.addClass('active');
                     }
                     childRowUl.append(childLi);
-
-                    // 中央一覧メニュー部分
-                    childDivData += "                <div class='box'>" + "\r\n";
-                    childDivData += "                    " + childData[2] + "\r\n";
-                    childDivData += "                </div>" + "\r\n";
+                    
                 }
                 // liタグを生成してテキスト追加
                 var newLi = $('<li>').append(childRow);
@@ -408,28 +392,9 @@ function CreateMenu() {
 
                 // insertに生成したliタグを追加
                 $('#listMenu').append(newLi);
-
-                // 中央一覧メニュー部分
-                if (childDivData != "") {
-                    newDivData += childDivData;
-                    newDivData += "            </div>" + "\r\n";
-                    newDivData += "        </div>" + "\r\n";
-                    newDivData += "    </div>" + "\r\n";
-                    if (rowData.ChildRowMainFlag == "left") {
-                        newDivDataLeft += newDivData;
-                    } else {
-                        newDivDataRight += newDivData;
-                    }
-                }
+                
             }
-
-            var newMenuLeft = $('<article>').append(newDivDataLeft);
-            newMenuLeft.addClass("col-xs-12 col-sm-6 col-md-6 col-lg-6");
-            $('#mainMenu').append(newMenuLeft);
-            var newMenuRight = $('<article>').append(newDivDataRight);
-            newMenuRight.addClass("col-xs-12 col-sm-6 col-md-6 col-lg-6");
-            $('#mainMenu').append(newMenuRight);
-
+            
             $("nav ul").jarvismenu({
                 "accordion": menu_accordion || !0
                 , "speed": menu_speed || !0

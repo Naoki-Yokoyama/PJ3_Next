@@ -38,5 +38,10 @@ namespace PXFRONT.Areas.PXAS.Controllers
 
             return View("PXAS0010VW", PXAS0010Data);
         }
+        [Area("PXAS")]
+        public IActionResult _PXAS0010VW()
+        {
+            return View("_PXAS0010VW");
+        }
     }
 }

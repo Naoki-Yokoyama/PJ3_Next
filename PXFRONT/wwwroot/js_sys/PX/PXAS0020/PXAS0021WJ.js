@@ -252,7 +252,11 @@ function CreateGroupList() {
                     var MenuListElement = (r[i].GroupNo == "0") ? $("#OtherGroup") : $("#MenuList" + r[i].GroupNo);
                     MenuListElement.append(
                         '<li class="drag box" title="' + r[i].TitleNm + '">' +
-                        '   <div style="width:40px;height:40px;"><img src="../../img_sys/PX/' + r[i].IconNm + '" style="position: absolute;"><h3 class="TitleNm">' + r[i].TitleNm + '</h3><p>' + r[i].ProgramId + '</p></div>' +
+                        '   <div style="width:40px;height:40px;"><img src="../../img_sys/PX/' + r[i].IconNm + '" style="position: absolute;">' +
+                        '       <h3 class="TitleNm">' + r[i].TitleNm + '</h3>' +
+                        '       <p>' + r[i].ProgramId + '</p>' +
+                        '       <p>' + r[i].ProgramId + '</p>' +
+                        '   </div>' +
                         '   <input type="hidden" class="HidCallWeb" value="' + r[i].CallWeb + '" />' +
                         '</li>');
                 }
