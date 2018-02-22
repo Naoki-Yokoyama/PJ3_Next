@@ -1,4 +1,5 @@
-﻿@{
+﻿
+@{
     Layout = null;
 }
 <!-- MAIN CONTENT -->
@@ -6,37 +7,32 @@
 <script src="~/js_sys/PX/PXAS0020/PXAS0021WJ.js?@DateTime.Now.ToString("yyyyMMddHHmmss")"></script>
 
 <div id="MenuDisplay" style="min-width: 700px;display:none;">
-    <button type="button" id="ReturnBtn" class="btn btn-default">
-        戻 る
-    </button>
-    <div id="BtnArea">
-        <button id="AddGroupBtn" class="btn btn-default"><i class="fa fa-plus"></i>&nbsp;グループの追加</button>
-        <button id="SaveBtn" class="btn btn-primary"><i class="fa fa-save"></i>&nbsp;保 存</button>
-    </div>
-    <!-- widget grid -->
-    <section id="widget-grid" class="" style="clear: both;">
-        <!-- row -->
-        <div class="row" id="mainMenu" style="overflow-y:scroll;">
-            <article id="FloatGroup" class="col-lg-12">
-                <div class="jarviswidget jarviswidget-color-blueLight" role="widget" style="margin:0;">
-                    <header role="heading" style="cursor: move;height:40px;">
-                        <h2 class="font-md" style="line-height:40px;"><strong>未選択グループ</strong></h2>
-                        <div id="SearchDiv"><div id="PartitionBorder"></div><i class="fa fa-search"></i><input type="text" id="SearchTxt" placeholder="機能名/プログラムID" /></div>
-                        <span class="jarviswidget-loader"><i class="fa fa-refresh fa-spin"></i></span>
+    <section id="widget-grid" class="">
+        <div class="row">
+            <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-1" data-widget-editbutton="false">
+                    <header>
+                        <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                        <h2>メニュー一覧</h2>
                     </header>
-                    <div role="content" style="overflow-y: scroll;">
-                        <div class="widget-body flex">
-                            <ul id="OtherGroup" class="jquery-ui-sortable"></ul>
-                        </div>
+                    <div id="MenuTable" class="no-padding">
+                        <table id="datatable_fixed_column" class="table table-bordered" style="width:100%;">
+                            <thead>
+                                <tr>
+                                    <th style="width:6%;" class="table_header" data-hide="phone">No.</th>
+                                    <th style="width:30%;" class="table_header" data-hide="phone">メニュータイトル</th>
+                                    <th style="width:10%;" class="table_header" data-hide="phone">グループ数</th>
+                                    <th style="width:10%;" class="table_header" data-hide="phone">機能数</th>
+                                    <th style="width:34%;" class="table_header" data-hide="phone">…</th>
+                                    <th style="width:10%;" class="table_header" data-hide="phone"></th>
+
+                                </tr>
+                            </thead>
+                            <tbody id="MenuTableList"></tbody>
+                        </table>
                     </div>
                 </div>
             </article>
         </div>
     </section>
 </div>
-
-<input type="hidden" id="MenuTitle" value="@(ViewBag.TITLENM)" />
-<input type="hidden" id="MENULV01" value="@(ViewBag.MENULV01)" />
-<input type="hidden" id="Ins_OK" />
-<input type="hidden" id="Edit_OK" />
-<input type="hidden" id="Edit_NG" />

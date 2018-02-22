@@ -48,7 +48,7 @@ function CreateMenuTable() {
 }
 
 function EditBtn_Click(level, title) {
-    $("#content").load("http://" + window.location.host + "/PXFRONT/PXAS/PXAS0020/PXAS0021VW?MENULV01=" + level + "&TITLENM=" + title);
+    $("#content").load("http://" + window.location.host + "/PXFRONT/PXAS/PXAS0020/PXAS0022VW?MENULV01=" + level + "&TITLENM=" + title);
     return false;
 }
 

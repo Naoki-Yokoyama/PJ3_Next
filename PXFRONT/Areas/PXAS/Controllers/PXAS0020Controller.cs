@@ -23,25 +23,8 @@ namespace PXFRONT.Areas.PXAS.Controllers
         }
 
         [Area("PXAS")]
-        public IActionResult PXAS0020VW()
+        public IActionResult PXAS0021VW()
         {
-            PXAS0010CW PXAS0010Data = new PXAS0010CW();
-
-            //  ◆パラメータ情報取得
-            //string p_ProgramId = (Request.QueryString["PRGID"] != null) ? Request.QueryString["PRGID"].ToString() : "";
-
-            //if (p_ProgramId != "")
-            //{
-            //    PXAS0010Data.LinkURL = p_ProgramId;
-            //}
-
-            return View("PXAS0020VW", PXAS0010Data);
-        }
-        [Area("PXAS")]
-        public IActionResult PXAS0021VW(string MENULV01 = null, string TITLENM = null)
-        {
-            ViewBag.MENULV01 = MENULV01;
-            ViewBag.TITLENM = TITLENM;
             PXAS0010CW PXAS0010Data = new PXAS0010CW();
 
             //  ◆パラメータ情報取得
@@ -55,9 +38,26 @@ namespace PXFRONT.Areas.PXAS.Controllers
             return View("PXAS0021VW", PXAS0010Data);
         }
         [Area("PXAS")]
-        public ActionResult _PXAS0021VW()
+        public IActionResult PXAS0022VW(string MENULV01 = null, string TITLENM = null)
         {
-            return View("_PXAS0021VW");
+            ViewBag.MENULV01 = MENULV01;
+            ViewBag.TITLENM = TITLENM;
+            PXAS0010CW PXAS0010Data = new PXAS0010CW();
+
+            //  ◆パラメータ情報取得
+            //string p_ProgramId = (Request.QueryString["PRGID"] != null) ? Request.QueryString["PRGID"].ToString() : "";
+
+            //if (p_ProgramId != "")
+            //{
+            //    PXAS0010Data.LinkURL = p_ProgramId;
+            //}
+
+            return View("PXAS0022VW", PXAS0010Data);
+        }
+        [Area("PXAS")]
+        public ActionResult _PXAS0022VW()
+        {
+            return View("_PXAS0022VW");
         }
 
     }
