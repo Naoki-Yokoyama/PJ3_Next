@@ -145,77 +145,49 @@ namespace PXAPI.Areas.PXAS
                 String id = dataJson.ChildRowID;
                 String url = dataJson.ChildRowURL;
                 String type = dataJson.ChildRowURLType;
-                String title = dataJson.ChildRowTitle;
+                String title = dataJson.SUBCMM;
                 String image = "";
                 String status = "\"" + url + "\", \"" + type + "\",  \"" + id + "\", 0, \"" + title
                                      + "\", \"\", \"" + image + "\"";
 
                 rowData.ChildRow = "<a href='#' id='" + id + "' title='" + title + "' class='ListLink'";
                 rowData.ChildRow += " onclick='MenuLink(\"" + url + "\", \"" + type + "\", \"" + id + "\", 0)' >";
-                rowData.ChildRow += " <i class='fa fa-lg fa-fw " + dataJson.ChildRowCSS + "'></i>";
-                rowData.ChildRow += " <span class='menu-item-parent'>" + dataJson.ChildRowContent + "</span>";
-                if (dataJson.ChildRowAfterCSS != null && dataJson.ChildRowAfterCSS != "")
+                rowData.ChildRow += " <i class='fa fa-lg fa-fw " + dataJson.MENUICON1 + "'></i>";
+                rowData.ChildRow += " <span class='menu-item-parent'>" + dataJson.MENUNM + "</span>";
+                if (dataJson.MENUICON2 != null && dataJson.MENUICON2 != "")
                 {
-                    rowData.ChildRow += " <span class='" + dataJson.ChildRowAfterCSS + "'>" + dataJson.ChildRowAfterTxt + "</span>";
+                    rowData.ChildRow += " <span class='" + dataJson.MENUICON2 + "'>" + dataJson.ChildRowAfterTxt + "</span>";
                 }
                 rowData.ChildRow += "</a>";
                 rowData.ParentClass = "" + dataJson.ParentClass;
-
-                // 中央一覧メニュー部分
-                rowData.ChildRowMain = "<span class='widget-icon'> <i class='fa " + dataJson.ChildRowCSS + "'></i> </span>";
-                rowData.ChildRowMain += "<h2 class='font-md'><strong>" + dataJson.ChildRowContent + "</strong></h2>";
-
-
-
-                Lg4nLogger.Info(loadData.RowData.Count() / 2);
-
-                if (menyuCount < loadData.RowData.Count() / 2)
-                {
-                    // メニューの件数が全体の半分以下の場合は左に表示
-                    rowData.ChildRowMainFlag = "left";
-                }
-                else
-                {
-                    // メニューの件数が全体の半数を超えたら右に表示
-                    rowData.ChildRowMainFlag = "";
-                }
-
-
+                
                 childData = new List<String[]>();
                 foreach (RowChildDataJson ChildDataJson in dataJson.ChildData)
                 {
                     String[] childRow = { "", "", "" };
                     // 左リストメニュー部分
                     id = ChildDataJson.ChildRowID;
-                    childRow[0] = "<a href='#' id='" + ChildDataJson.ChildRowID + "' title='" + ChildDataJson.ChildRowTitle + "'";
+                    childRow[0] = "<a href='#' id='" + ChildDataJson.ChildRowID + "' title='" + ChildDataJson.SUBCMM + "'";
                     childRow[0] += " onclick='MenuLink(\"" + ChildDataJson.ChildRowURL + "\", \"" + ChildDataJson.ChildRowURLType + "\",  \"" + id + "\", 1)' >";
-                    if (ChildDataJson.ChildRowCSS != null && ChildDataJson.ChildRowCSS != "")
+                    if (ChildDataJson.MENUICON1 != null && ChildDataJson.MENUICON1 != "")
                     {
-                        childRow[0] += "<i class='fa fa-lg fa-fw " + ChildDataJson.ChildRowCSS + "'></i>";
+                        childRow[0] += "<i class='fa fa-lg fa-fw " + ChildDataJson.MENUICON1 + "'></i>";
                     }
                     if (dataJson.ParentClass == "active")
                     {
-                        childRow[0] += "<span class='menu-item-parent'>" + ChildDataJson.ChildRowContent + "</span>";
+                        childRow[0] += "<span class='menu-item-parent'>" + ChildDataJson.MENUNM + "</span>";
                     }
                     else
                     {
-                        childRow[0] += "" + ChildDataJson.ChildRowContent;
+                        childRow[0] += "" + ChildDataJson.MENUNM;
                     }
-                    if (ChildDataJson.ChildRowAfterCSS != null && ChildDataJson.ChildRowAfterCSS != "")
+                    if (ChildDataJson.MENUICON2 != null && ChildDataJson.MENUICON2 != "")
                     {
-                        childRow[0] += " <span class='" + ChildDataJson.ChildRowAfterCSS + "'>" + ChildDataJson.ChildRowAfterTxt + "</span>";
+                        childRow[0] += " <span class='" + ChildDataJson.MENUICON2 + "'>" + ChildDataJson.ChildRowAfterTxt + "</span>";
                     }
                     childRow[0] += "</a>";
                     childRow[1] = "" + ChildDataJson.ParentClass;
-
-                    // 中央一覧メニュー部分
-                    childRow[2] = "<a href='#' title='" + ChildDataJson.ChildRowTitle + "' ";
-                    childRow[2] += " onclick='MenuLink(\"" + ChildDataJson.ChildRowURL + "\", \"" + ChildDataJson.ChildRowURLType + "\",  \"" + id + "\", 1)' >";
-                    childRow[2] += "<img src='../../img/" + ChildDataJson.ChildRowImage + "'>";
-                    childRow[2] += "<h3>" + ChildDataJson.ChildRowContent + "</h3>";
-                    childRow[2] += "<p>" + ChildDataJson.ChildRowComment + "</p>";
-                    childRow[2] += "</a>";
-
+                    
                     childData.Add(childRow);
                 }
                 rowData.ChildData = childData;

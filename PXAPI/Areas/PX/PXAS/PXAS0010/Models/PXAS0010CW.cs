@@ -13,7 +13,7 @@ namespace PXAPI.Areas.PXAS
 {
     public class PXAS0010CW
     {
-        #region LNAS0000MD_Declarations
+        #region PXAS0010CW_Declarations
 
         /// <summary> 共通データ </summary>
         public PX_COMMON PX_COMMONData { get; set; }
@@ -30,7 +30,7 @@ namespace PXAPI.Areas.PXAS
             PXCL_dba dbAccess = new PXCL_dba(PXCL_dba.ConnectionSystem, PX_COMMONData);
             RowChildDataJson jsonDataChild = new RowChildDataJson();
             int setLv01 = 0;
-            int setLv02 = 0;
+            int setLv03 = 0;
 
             try
             {
@@ -41,20 +41,28 @@ namespace PXAPI.Areas.PXAS
 
                 //  ◆SELECT文の設定
                 cmdTxt.AppendLine("SELECT");
-                cmdTxt.AppendLine("    WEB.MENULV01,");
-                cmdTxt.AppendLine("    WEB.MENULV02,");
-                cmdTxt.AppendLine("    WEB.MENULV03,");
-                cmdTxt.AppendLine("    WEB.CALLTP,");
-                cmdTxt.AppendLine("    PRG.LIBNM,");
-                cmdTxt.AppendLine("    WEB.SUBCMM,");
-                cmdTxt.AppendLine("    WEB.MENUICON1,");
-                cmdTxt.AppendLine("    WEB.MENUNM,");
-                cmdTxt.AppendLine("    WEB.MENUICON2,");
-                cmdTxt.AppendLine("    WEB.MENUICON3,");
-                cmdTxt.AppendLine("    WEB.WEBCMM");
+                cmdTxt.AppendLine("    WEB.MENULV01");
+                cmdTxt.AppendLine("   ,WEB.MENULV02");
+                cmdTxt.AppendLine("   ,WEB.MENULV03");
+                cmdTxt.AppendLine("   ,WEB.CALLTP");
+                cmdTxt.AppendLine("   ,WEB.CALLWEB");
+                cmdTxt.AppendLine("   ,PRG.LIBNM");
+                cmdTxt.AppendLine("   ,WEB.WEBCMM");
+                cmdTxt.AppendLine("   ,PRG.MGCMM");
+                cmdTxt.AppendLine("   ,WEB.SUBCMM");
+                cmdTxt.AppendLine("   ,PRG.PRGCMM");
+                cmdTxt.AppendLine("   ,WEB.MENUNM");
+                cmdTxt.AppendLine("   ,PRG.PRGNM");
+                cmdTxt.AppendLine("   ,WEB.MENUICON1");
+                cmdTxt.AppendLine("   ,PRG.PRGSUBKBN1");
+                cmdTxt.AppendLine("   ,WEB.MENUICON2");
+                cmdTxt.AppendLine("   ,PRG.PRGSUBKBN2");
+                cmdTxt.AppendLine("   ,WEB.MENUICON3");
+                cmdTxt.AppendLine("   ,PRG.PRGSUBKBN3");
                 cmdTxt.AppendLine("FROM P3AS_MENU_WEB AS WEB");
                 cmdTxt.AppendLine("LEFT JOIN P3AS_PROGRAM AS PRG ON PRG.PRGID = WEB.PROGRAMID");
                 cmdTxt.AppendLine("WHERE WEB.MENUID = @MENUID");
+                cmdTxt.AppendLine("  AND WEB.MENULV02 = -1");
                 cmdTxt.AppendLine("ORDER BY WEB.MENUID, WEB.MENULV01, WEB.MENULV02, WEB.MENULV03");
                 //  ◆パラメータ設定
                 using (SqlCommand sqlCmd = new SqlCommand())
@@ -69,20 +77,28 @@ namespace PXAPI.Areas.PXAS
                             {
                                 int menuLv01 = (Int16)res["MENULV01"];
                                 int menuLv02 = (Int16)res["MENULV02"];
-                                string libNm = res["LIBNM"] as string;
+                                int menuLv03 = (Int16)res["MENULV03"];
                                 string callTp = res["CALLTP"] as string;
+                                string libNm = res["CALLWEB"] as string;
+                                if (libNm != null || libNm != "") { libNm = res["LIBNM"] as string; }
                                 string subCmm = res["SUBCMM"] as string;
-                                string menuNm = res["MENUNM"] as string;
+                                if (subCmm != null || subCmm != "") { libNm = res["PRGCMM"] as string; }
                                 string webCmm = res["WEBCMM"] as string;
+                                if (webCmm != null || webCmm != "") { webCmm = res["MGCMM"] as string; }
+                                string menuNm = res["MENUNM"] as string;
+                                if (menuNm != null || menuNm != "") { menuNm = res["PRGNM"] as string; }
                                 string menuIcon1 = res["MENUICON1"] as string;
+                                if (menuIcon1 != null || menuIcon1 != "") { menuIcon1 = res["PRGSUBKBN1"] as string; }
                                 string menuIcon2 = res["MENUICON2"] as string;
+                                if (menuIcon2 != null || menuIcon2 != "") { menuIcon2 = res["PRGSUBKBN2"] as string; }
                                 string menuIcon3 = res["MENUICON3"] as string;
+                                if (menuIcon3 != null || menuIcon3 != "") { menuIcon3 = res["PRGSUBKBN3"] as string; }
 
                                 if (setLv01 != menuLv01)
                                 {
                                     RowDataJson jsonData = new RowDataJson();
                                     setLv01 = menuLv01;
-                                    setLv02 = 0;
+                                    setLv03 = 0;
 
                                     jsonData.ChildData = new List<RowChildDataJson>();
                                     jsonData.ChildRowID = setLv01.ToString();
@@ -99,21 +115,21 @@ namespace PXAPI.Areas.PXAS
                                             jsonData.ChildRowURLType = "";
                                             break;
                                     }
-                                    jsonData.ChildRowTitle = subCmm;
-                                    jsonData.ChildRowCSS = menuIcon1;
-                                    jsonData.ChildRowContent = menuNm;
-                                    jsonData.ChildRowAfterCSS = menuIcon2;
+                                    jsonData.SUBCMM = subCmm;
+                                    jsonData.MENUICON1 = menuIcon1;
+                                    jsonData.MENUNM = menuNm;
+                                    jsonData.MENUICON2 = menuIcon2;
                                     jsonData.ChildRowAfterTxt = "";
                                     jsonData.ParentClass = "";
 
                                     loadData.RowData.Add(jsonData);
                                 }
-                                else if (setLv02 != menuLv02)
+                                else if (setLv03 != menuLv03)
                                 {
                                     jsonDataChild = new RowChildDataJson();
-                                    setLv02 = menuLv02;
+                                    setLv03 = menuLv03;
 
-                                    jsonDataChild.ChildRowID = setLv01 + "_" + setLv02;
+                                    jsonDataChild.ChildRowID = setLv01 + "_" + setLv03;
                                     jsonDataChild.ChildRowURL = libNm;
                                     switch (callTp)
                                     {
@@ -127,20 +143,19 @@ namespace PXAPI.Areas.PXAS
                                             jsonDataChild.ChildRowURLType = "";
                                             break;
                                     }
-                                    jsonDataChild.ChildRowTitle = subCmm;
-                                    jsonDataChild.ChildRowCSS = menuIcon1;
-                                    jsonDataChild.ChildRowContent = menuNm;
-                                    jsonDataChild.ChildRowAfterCSS = menuIcon2;
+                                    jsonDataChild.SUBCMM = subCmm;
+                                    jsonDataChild.MENUICON1 = menuIcon1;
+                                    jsonDataChild.MENUNM = menuNm;
+                                    jsonDataChild.MENUICON2 = menuIcon2;
                                     jsonDataChild.ChildRowAfterTxt = "";
                                     jsonDataChild.ParentClass = "";
-                                    jsonDataChild.ChildRowImage = menuIcon3;
-                                    jsonDataChild.ChildRowComment = webCmm;
+                                    jsonDataChild.MENUICON3 = menuIcon3;
+                                    jsonDataChild.WEBCMM = webCmm;
 
                                     RowDataJson jsonData = loadData.RowData[(loadData.RowData.Count() - 1)];
                                     jsonData.ChildData.Add(jsonDataChild);
                                     loadData.RowData[(loadData.RowData.Count() - 1)] = jsonData;
                                 }
-
                             }
                         }
                     }
@@ -182,17 +197,17 @@ namespace PXAPI.Areas.PXAS
         /// <summary>  </summary>
         public string ParentClass { get; set; }
         /// <summary>  </summary>
-        public string ChildRowTitle { get; set; }
+        public string SUBCMM { get; set; }
         /// <summary>  </summary>
-        public string ChildRowContent { get; set; }
+        public string MENUNM { get; set; }
         /// <summary>  </summary>
-        public string ChildRowCSS { get; set; }
+        public string MENUICON1 { get; set; }
         /// <summary>  </summary>
         public string ChildRowURL { get; set; }
         /// <summary>  </summary>
         public string ChildRowURLType { get; set; }
         /// <summary>  </summary>
-        public string ChildRowAfterCSS { get; set; }
+        public string MENUICON2 { get; set; }
         /// <summary>  </summary>
         public string ChildRowAfterTxt { get; set; }
         /// <summary>  </summary>
@@ -207,23 +222,23 @@ namespace PXAPI.Areas.PXAS
         /// <summary>  </summary>
         public string ParentClass { get; set; }
         /// <summary>  </summary>
-        public string ChildRowTitle { get; set; }
+        public string SUBCMM { get; set; }
         /// <summary>  </summary>
-        public string ChildRowContent { get; set; }
+        public string MENUNM { get; set; }
         /// <summary>  </summary>
-        public string ChildRowCSS { get; set; }
+        public string MENUICON1 { get; set; }
         /// <summary>  </summary>
         public string ChildRowURL { get; set; }
         /// <summary>  </summary>
         public string ChildRowURLType { get; set; }
         /// <summary>  </summary>
-        public string ChildRowAfterCSS { get; set; }
+        public string MENUICON2 { get; set; }
         /// <summary>  </summary>
         public string ChildRowAfterTxt { get; set; }
         /// <summary>  </summary>
-        public string ChildRowImage { get; set; }
+        public string MENUICON3 { get; set; }
         /// <summary>  </summary>
-        public string ChildRowComment { get; set; }
+        public string WEBCMM { get; set; }
     }
 
     /// <summary>  </summary>
